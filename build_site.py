@@ -5,13 +5,33 @@ Genera il sito web di SSM Rush (landing + Privacy + Supporto), pronto per GitHub
 - Scrive index.html (landing marketing) + privacy.html + supporto.html
 Fonte testi legali: ../legal/*.md   ·   Uso: python3 site/build_site.py
 """
-import os, re, html
-from PIL import Image
+import os, re, html, json
+from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(ROOT, "site")
 IMG  = os.path.join(SITE, "img")
 EMAIL = "neuron.builds@gmail.com"
+BASE  = "https://neuronbuilds.github.io/ssmrush"
+F_BOLD = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
+F_REG  = "/System/Library/Fonts/Supplemental/Arial.ttf"
+LASTMOD = "2026-06-20"
+
+# Per-page SEO metadata (keyword-rich, unique titles + descriptions)
+META = {
+    "index.html": dict(
+        title="SSM Rush — App per il concorso SSM: quiz, simulazioni e ripasso",
+        desc="App offline per la preparazione al concorso di Specializzazione in Medicina (SSM): oltre 3.000 quesiti, simulazioni d'esame, coach adattivo e ripasso distanziato. Per iPhone e Android.",
+        app=True, prio="1.0"),
+    "privacy.html": dict(
+        title="Privacy — SSM Rush",
+        desc="Informativa sulla privacy dell'app SSM Rush: nessun dato personale raccolto, tutto offline. Titolare: Arianna Cocchiglia (Neuron Builds).",
+        app=False, prio="0.3"),
+    "supporto.html": dict(
+        title="Supporto e FAQ — SSM Rush",
+        desc="Assistenza e domande frequenti su SSM Rush, l'app offline per la preparazione al concorso SSM. Contatto: neuron.builds@gmail.com.",
+        app=False, prio="0.3"),
+}
 
 SHOTS = [
     ("01-home.png",      "Tutto il concorso, offline"),
@@ -69,13 +89,43 @@ footer .small{font-size:12.5px;color:#7f8896;max-width:620px;margin:16px auto 0;
 @media(max-width:720px){.hero h1{font-size:36px}.why,.feat{grid-template-columns:1fr}.nav a.hidem{display:none}}
 """
 
-def head(title):
-    return (f'<!doctype html><html lang="it"><head><meta charset="utf-8">'
-            f'<meta name="viewport" content="width=device-width, initial-scale=1">'
-            f'<title>{html.escape(title)}</title>'
-            f'<link rel="icon" href="img/favicon.png">'
-            f'<meta name="description" content="SSM Rush — app offline per la preparazione al concorso SSM: oltre 3.000 quesiti, simulazioni, coach adattivo e ripasso distanziato.">'
-            f'<style>{CSS}</style></head><body>')
+def head(path, m):
+    canonical = BASE + "/" if path == "index.html" else f"{BASE}/{path}"
+    t = html.escape(m["title"]); d = html.escape(m["desc"])
+    ld = ""
+    if m.get("app"):
+        obj = {
+            "@context":"https://schema.org","@type":"MobileApplication",
+            "name":"SSM Rush","operatingSystem":"iOS, Android",
+            "applicationCategory":"EducationalApplication","inLanguage":"it",
+            "description":m["desc"],"image":BASE+"/img/icon.png","url":BASE+"/",
+            "publisher":{"@type":"Organization","name":"Neuron Builds","email":EMAIL},
+        }
+        ld = '<script type="application/ld+json">'+json.dumps(obj, ensure_ascii=False)+'</script>'
+    return (
+        '<!doctype html><html lang="it"><head><meta charset="utf-8">'
+        '<meta name="viewport" content="width=device-width, initial-scale=1">'
+        f'<title>{t}</title>'
+        f'<meta name="description" content="{d}">'
+        '<meta name="robots" content="index, follow">'
+        f'<link rel="canonical" href="{canonical}">'
+        '<meta name="theme-color" content="#222c3a">'
+        '<link rel="icon" href="img/favicon.png">'
+        '<meta property="og:type" content="website">'
+        '<meta property="og:site_name" content="SSM Rush">'
+        '<meta property="og:locale" content="it_IT">'
+        f'<meta property="og:title" content="{t}">'
+        f'<meta property="og:description" content="{d}">'
+        f'<meta property="og:url" content="{canonical}">'
+        f'<meta property="og:image" content="{BASE}/img/og-image.png">'
+        '<meta property="og:image:width" content="1200">'
+        '<meta property="og:image:height" content="630">'
+        '<meta name="twitter:card" content="summary_large_image">'
+        f'<meta name="twitter:title" content="{t}">'
+        f'<meta name="twitter:description" content="{d}">'
+        f'<meta name="twitter:image" content="{BASE}/img/og-image.png">'
+        f'{ld}'
+        f'<style>{CSS}</style></head><body>')
 
 NAV = ('<div class="nav"><div class="in"><div class="logo">SSM</div><b>SSM Rush</b>'
        '<span class="sp"></span>'
@@ -89,8 +139,8 @@ FOOTER = (f'<footer><div class="links"><a href="index.html">Home</a><a href="pri
           f'A scopo esclusivamente didattico. I quesiti sono materiale originale di pratica e non riproducono '
           f'le prove ufficiali del concorso.</p></footer></body></html>')
 
-def page(title, inner):
-    return head(title) + NAV + inner + FOOTER
+def page(path, m, inner):
+    return head(path, m) + NAV + inner + FOOTER
 
 # ---------- inline markdown for legal pages ----------
 def inline(t):
@@ -126,13 +176,27 @@ def md_to_html(md):
 # ---------- images ----------
 def prep_images():
     os.makedirs(IMG, exist_ok=True)
-    ic = Image.open(os.path.join(ROOT,"store-assets","icons","app-store-icon-1024.png")).convert("RGB")
+    icon_src = os.path.join(ROOT,"store-assets","icons","app-store-icon-1024.png")
+    ic = Image.open(icon_src).convert("RGB")
     ic.resize((256,256), Image.LANCZOS).save(os.path.join(IMG,"icon.png"))
     ic.resize((48,48), Image.LANCZOS).save(os.path.join(IMG,"favicon.png"))
     for fn,_ in SHOTS:
         s = Image.open(os.path.join(ROOT,"store-assets","screenshots","ios-iphone-6.9",fn)).convert("RGB")
         w=460; h=int(s.size[1]*w/s.size[0])
         s.resize((w,h), Image.LANCZOS).save(os.path.join(IMG,"shot-"+fn.split("-")[0]+".png"))
+    # social-share image (1200×630) for Open Graph / Twitter cards
+    W,H=1200,630; top=(43,54,72); bot=(21,27,38)
+    col=Image.new("RGB",(1,H))
+    for y in range(H):
+        t=y/(H-1); col.putpixel((0,y),tuple(int(top[i]+(bot[i]-top[i])*t) for i in range(3)))
+    og=col.resize((W,H)); d=ImageDraw.Draw(og)
+    icon=ic.resize((210,210),Image.LANCZOS)
+    mask=Image.new("L",(210,210),0); ImageDraw.Draw(mask).rounded_rectangle([0,0,209,209],radius=46,fill=255)
+    og.paste(icon,(96,210),mask)
+    d.text((360,224),"APP PER IL CONCORSO SSM",font=ImageFont.truetype(F_BOLD,26),fill=(255,178,77))
+    d.text((360,262),"SSM Rush",font=ImageFont.truetype(F_BOLD,82),fill=(255,255,255))
+    d.text((360,372),"Lo sprint intelligente verso il concorso SSM",font=ImageFont.truetype(F_REG,32),fill=(201,209,221))
+    og.save(os.path.join(IMG,"og-image.png"))
 
 # ---------- landing ----------
 WHY = [
@@ -211,15 +275,23 @@ def build():
         + md_to_html("\n".join(supp.split('\n')[1:])) + '</main></div>')
 
     os.makedirs(SITE, exist_ok=True)
-    files = {
-        "index.html":   page("SSM Rush — preparazione al concorso SSM", landing()),
-        "privacy.html": page("Informativa sulla Privacy — SSM Rush", priv_inner),
-        "supporto.html":page("Supporto — SSM Rush", supp_inner),
-    }
-    for name,content in files.items():
-        with open(os.path.join(SITE,name),"w",encoding="utf-8") as f: f.write(content)
+    inners = {"index.html": landing(), "privacy.html": priv_inner, "supporto.html": supp_inner}
+    for name, inner in inners.items():
+        with open(os.path.join(SITE,name),"w",encoding="utf-8") as f:
+            f.write(page(name, META[name], inner))
         print("✓ site/"+name)
-    print("✓ immagini in site/img/")
+    # robots.txt
+    with open(os.path.join(SITE,"robots.txt"),"w",encoding="utf-8") as f:
+        f.write(f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n")
+    # sitemap.xml
+    urls = ""
+    for name,m in META.items():
+        loc = BASE+"/" if name=="index.html" else f"{BASE}/{name}"
+        urls += f'  <url><loc>{loc}</loc><lastmod>{LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>{m["prio"]}</priority></url>\n'
+    with open(os.path.join(SITE,"sitemap.xml"),"w",encoding="utf-8") as f:
+        f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls+'</urlset>\n')
+    print("✓ robots.txt + sitemap.xml")
+    print("✓ immagini in site/img/ (icona, screenshot, og-image)")
 
 if __name__ == "__main__":
     build()
