@@ -66,6 +66,8 @@ h2.t{font-size:30px;text-align:center;color:var(--navy);margin:0 0 8px;letter-sp
 .why{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 .why .c{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:0 1px 2px rgba(20,30,50,.04)}
 .why .c .ic{font-size:26px}.why .c h3{margin:.5em 0 .2em;color:var(--navy);font-size:18px}.why .c p{margin:0;color:var(--muted);font-size:15px}
+.highlight{background:linear-gradient(120deg,#fff3e2,#ffe9cf);border:1px solid #f2d2a6;border-left:5px solid var(--accent);border-radius:14px;padding:20px 24px;margin:0 0 26px;display:flex;gap:16px;align-items:flex-start;text-align:left}
+.highlight .ic{font-size:30px;line-height:1}.highlight b{color:var(--navy);font-size:18px;display:block;margin-bottom:3px}.highlight p{margin:0;color:#5a4a35;font-size:15.5px}
 .feat{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 28px;max-width:840px;margin:0 auto}
 .feat div{padding:12px 0;border-bottom:1px solid var(--line);font-size:15.5px}.feat .k{color:var(--accent);font-weight:800;margin-right:8px}
 .stats{background:var(--navy);color:#fff;border-radius:18px;display:flex;flex-wrap:wrap;justify-content:space-around;gap:18px;padding:30px 18px;text-align:center}
@@ -231,7 +233,7 @@ def landing():
   <div class="eyebrow">App di preparazione · Concorso SSM</div>
   <h1>SSM Rush</h1>
   <p class="lead">Lo sprint intelligente verso il concorso SSM.</p>
-  <p class="sub">Coach adattivo, simulazioni come la prova reale e ripasso distanziato — oltre 3.000 quesiti, tutto offline. Arriva al concorso al massimo.</p>
+  <p class="sub">Coach adattivo, simulazioni come la prova reale e ripasso distanziato — oltre 3.000 quesiti, tutto offline. Quesiti tarati un gradino sopra la prova: arrivi al concorso in vantaggio.</p>
   <div class="badges">
     <span class="badge">App Store<small>Presto disponibile</small></span>
     <span class="badge">Google Play<small>Presto disponibile</small></span>
@@ -241,6 +243,7 @@ def landing():
 <section id="perche"><div class="in">
   <h2 class="t">Perché SSM Rush è diversa</h2>
   <p class="lede">Non è l'ennesimo archivio di domande da scorrere a caso: ti dice cosa ripassare e ti allena come alla prova vera.</p>
+  <div class="highlight"><div class="ic">📈</div><div><b>Tarati per portarti più in alto</b><p>I quesiti sono pensati un gradino sopra la prova reale — distrattori curati e casi clinici realistici. È un allenamento volutamente esigente: se te la cavi qui, al concorso arrivi con un solido margine di vantaggio.</p></div></div>
   <div class="why">{why}</div>
 </div></section>
 
