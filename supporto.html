@@ -1,43 +1,50 @@
-<!doctype html>
-<html lang="it">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index">
-<title>Supporto — SSM Rush</title>
-<style>
-:root{--bg:#f4f6f9;--card:#ffffff;--ink:#1f2733;--muted:#5b6472;--accent:#e87a00;--navy:#26303f;--line:#e6e9ee}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-.wrap{max-width:760px;margin:0 auto;padding:28px 20px 64px}
-header.top{display:flex;align-items:center;gap:12px;padding:20px 0 8px}
-.logo{width:42px;height:42px;border-radius:11px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;letter-spacing:.5px}
-.brand b{display:block;font-size:18px;color:var(--navy)}
-.brand span{font-size:12.5px;color:var(--muted);letter-spacing:.4px;text-transform:uppercase}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px 30px 34px;margin-top:18px;box-shadow:0 1px 2px rgba(20,30,50,.04)}
-h1{font-size:26px;line-height:1.25;color:var(--navy);margin:.2em 0 .1em}
-h2{font-size:17px;color:var(--navy);margin:1.7em 0 .5em;padding-top:.2em}
-.updated{color:var(--muted);font-size:13.5px;margin:0 0 1.4em}
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Supporto — SSM Rush</title><link rel="icon" href="img/favicon.png"><meta name="description" content="SSM Rush — app offline per la preparazione al concorso SSM: oltre 3.000 quesiti, simulazioni, coach adattivo e ripasso distanziato."><style>
+:root{--bg:#f4f6f9;--card:#fff;--ink:#1f2733;--muted:#5b6472;--accent:#e87a00;--accent2:#ffb24d;--navy:#222c3a;--deep:#151b26;--line:#e6e9ee}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#b35e00;text-decoration:none}a:hover{text-decoration:underline}
+.nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.86);backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid var(--line)}
+.nav .in{max-width:1040px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:11px 20px}
+.nav .logo{width:30px;height:30px;border-radius:8px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;letter-spacing:.5px}
+.nav b{color:var(--navy);font-size:16px}.nav .sp{flex:1}
+.nav a{color:var(--muted);font-weight:600;font-size:14px;margin-left:18px}.nav a:hover{color:var(--navy);text-decoration:none}
+section{padding:64px 20px}.in{max-width:1040px;margin:0 auto}
+.hero{background:linear-gradient(160deg,#2b3648,#151b26);color:#fff;text-align:center;padding:74px 20px 80px}
+.hero .icon{width:104px;height:104px;border-radius:24px;box-shadow:0 18px 40px rgba(0,0,0,.45);display:block;margin:0 auto 22px}
+.eyebrow{color:var(--accent2);font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:12.5px;margin-bottom:10px}
+.hero h1{font-size:46px;line-height:1.05;margin:.1em 0 .2em;letter-spacing:-.5px}
+.hero .lead{font-size:21px;font-weight:600;margin:.2em auto;max-width:640px;color:#eef1f6}
+.hero .sub{font-size:16px;color:#b9c1cd;max-width:600px;margin:14px auto 0}
+.badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:12px;padding:11px 16px;font-weight:600;font-size:14px}
+.badge small{display:block;font-size:10.5px;color:#9aa3b1;font-weight:500;letter-spacing:.3px}
+h2.t{font-size:30px;text-align:center;color:var(--navy);margin:0 0 8px;letter-spacing:-.3px}
+.lede{text-align:center;color:var(--muted);max-width:620px;margin:0 auto 38px}
+.why{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.why .c{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:0 1px 2px rgba(20,30,50,.04)}
+.why .c .ic{font-size:26px}.why .c h3{margin:.5em 0 .2em;color:var(--navy);font-size:18px}.why .c p{margin:0;color:var(--muted);font-size:15px}
+.feat{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 28px;max-width:840px;margin:0 auto}
+.feat div{padding:12px 0;border-bottom:1px solid var(--line);font-size:15.5px}.feat .k{color:var(--accent);font-weight:800;margin-right:8px}
+.stats{background:var(--navy);color:#fff;border-radius:18px;display:flex;flex-wrap:wrap;justify-content:space-around;gap:18px;padding:30px 18px;text-align:center}
+.stats .n{font-size:30px;font-weight:800;color:#fff}.stats .l{font-size:13px;color:#aab2c0;letter-spacing:.3px}
+.shots{background:linear-gradient(180deg,#eef1f6,#f4f6f9)}
+.strip{display:flex;gap:20px;overflow-x:auto;padding:8px 4px 18px;scroll-snap-type:x mandatory}
+.shot{flex:0 0 auto;width:230px;scroll-snap-align:center;text-align:center}
+.shot img{width:230px;border-radius:22px;box-shadow:0 14px 34px rgba(25,35,60,.18);border:1px solid #e3e7ee;background:#fff}
+.shot .cap{font-size:13.5px;color:var(--muted);margin-top:12px;font-weight:600}
+footer{background:var(--deep);color:#aeb6c2;text-align:center;padding:44px 20px}
+footer .links a{color:#dfe4ec;margin:0 12px;font-weight:600}
+footer .small{font-size:12.5px;color:#7f8896;max-width:620px;margin:16px auto 0;line-height:1.6}
+/* content pages */
+.wrap{max-width:760px;margin:0 auto;padding:34px 20px 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px 30px 34px;box-shadow:0 1px 2px rgba(20,30,50,.04)}
+.card h1{font-size:26px;color:var(--navy);margin:.1em 0 .1em}
+.card h2{font-size:17px;color:var(--navy);margin:1.7em 0 .5em}
+.updated{color:var(--muted);font-size:13.5px;margin:0 0 1.3em}
 .owner{background:#fbf3e6;border-left:4px solid var(--accent);border-radius:8px;padding:12px 16px;font-size:14.5px;margin:0 0 1.2em}
-p{margin:.7em 0}ul{margin:.5em 0 1em;padding-left:1.2em}li{margin:.3em 0}
-a{color:#b35e00;text-decoration:none;border-bottom:1px solid rgba(179,94,0,.35)}a:hover{border-bottom-color:#b35e00}
-.btns{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0 6px}
-.btn{display:inline-block;background:var(--navy);color:#fff;border-radius:10px;padding:12px 18px;font-weight:600;border:none}
-.btn.alt{background:#fff;color:var(--navy);border:1px solid var(--line)}
-.btn:hover{border-bottom:none;opacity:.93}
-footer{color:var(--muted);font-size:13px;text-align:center;margin-top:30px}
-footer a{color:var(--muted)}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <header class="top">
-    <div class="logo">SSM</div>
-    <div class="brand"><b>SSM Rush</b><span>Neuron Builds</span></div>
-  </header>
-  <main class="card">
-<h1>Supporto</h1>
-<p>Hai bisogno di aiuto con <strong>SSM Rush</strong>? Siamo qui.</p>
+.card ul{padding-left:1.2em}.card li{margin:.3em 0}
+@media(max-width:720px){.hero h1{font-size:36px}.why,.feat{grid-template-columns:1fr}.nav a.hidem{display:none}}
+</style></head><body><div class="nav"><div class="in"><div class="logo">SSM</div><b>SSM Rush</b><span class="sp"></span><a class="hidem" href="index.html#funzioni">Funzioni</a><a class="hidem" href="index.html#screenshot">Screenshot</a><a href="privacy.html">Privacy</a><a href="supporto.html">Supporto</a></div></div><div class="wrap"><main class="card"><h1>Supporto</h1><p>Hai bisogno di aiuto con <strong>SSM Rush</strong>? Siamo qui.</p>
 <p><strong>Contatto:</strong> <a href="mailto:neuron.builds@gmail.com">neuron.builds@gmail.com</a> <strong>Tempi di risposta:</strong> in genere entro 2–3 giorni lavorativi.</p>
 <p>Quando ci scrivi, indica il <strong>modello del dispositivo</strong> e la <strong>versione del sistema operativo</strong>: ci aiuta a risponderti più in fretta.</p>
 <h2>Domande frequenti</h2>
@@ -49,9 +56,4 @@ footer a{color:var(--muted)}
 <p><strong>Su quali dispositivi funziona?</strong> iPhone (iOS) e dispositivi Android supportati.</p>
 <p><strong>I quesiti sono le domande ufficiali del concorso?</strong> No. Sono <strong>materiale didattico originale</strong> in stile prova, pensato per l&#x27;esercitazione. Non riproducono le prove ufficiali.</p>
 <h2>Avvertenza</h2>
-<p>I contenuti hanno finalità esclusivamente didattiche e di esercitazione per la preparazione all&#x27;esame e non sostituiscono le linee guida mediche ufficiali né il parere di professionisti qualificati.</p>
-  </main>
-  <footer>© 2026 Neuron Builds · <a href="mailto:neuron.builds@gmail.com">neuron.builds@gmail.com</a></footer>
-</div>
-</body>
-</html>
+<p>I contenuti hanno finalità esclusivamente didattiche e di esercitazione per la preparazione all&#x27;esame e non sostituiscono le linee guida mediche ufficiali né il parere di professionisti qualificati.</p></main></div><footer><div class="links"><a href="index.html">Home</a><a href="privacy.html">Privacy</a><a href="supporto.html">Supporto</a><a href="mailto:neuron.builds@gmail.com">Contatti</a></div><p class="small">© 2026 Neuron Builds · <a href="mailto:neuron.builds@gmail.com" style="color:#aeb6c2">neuron.builds@gmail.com</a><br>A scopo esclusivamente didattico. I quesiti sono materiale originale di pratica e non riproducono le prove ufficiali del concorso.</p></footer></body></html>
