@@ -140,14 +140,15 @@ WHY = [
     ("🔁","Ripasso distanziato","I concetti tornano nel momento esatto in cui stai per dimenticarli, per fissarli nella memoria a lungo termine."),
     ("📝","Simulazioni reali","140 quesiti in 210 minuti, esattamente come al concorso, con gestione del tempo e calcolo del punteggio."),
     ("🔒","Offline, senza abbonamenti","Paghi una volta e hai tutto, per sempre. Nessuna pubblicità, nessun account, nessun dato raccolto."),
+    ("🃏","Flashcard a richiamo attivo","Memorizza con il metodo dell'active recall: flashcard divise per materia per fissare i concetti chiave."),
+    ("🪤","Trappole d'esame","Impara a riconoscere i distrattori più insidiosi — le risposte “quasi giuste” costruite apposta per farti sbagliare."),
+    ("📊","Analisi errori e calibrazione","Scopri se sei troppo sicuro o troppo prudente e affina la strategia di risposta sui tuoi dati reali."),
+    ("📚","Mini-lezioni e trucchi","Ripassi rapidi, glossario e mnemonici per richiamare i concetti chiave proprio quando ti servono."),
 ]
 FEAT = [
     "Oltre 3.000 quesiti e casi clinici in stile prova",
     "Allenamento per materia su 30 specialità",
-    "Flashcard per il richiamo attivo",
-    "Trappole d'esame: riconosci i distrattori",
-    "Analisi degli errori e calibrazione",
-    "Mini-lezioni, glossario e trucchi per ricordare",
+    "Simulazioni rapide e a tempo, oltre alla completa",
     "Statistiche, livelli, traguardi e serie giornaliera",
     "Tutto incluso: nessun contenuto a pagamento extra",
 ]
