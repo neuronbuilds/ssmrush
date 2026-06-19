@@ -16,6 +16,9 @@ BASE  = "https://neuronbuilds.github.io/ssmrush"
 F_BOLD = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
 F_REG  = "/System/Library/Fonts/Supplemental/Arial.ttf"
 LASTMOD = "2026-06-20"
+# Pre-lancio: True = pagina "presto disponibile" + noindex (il pubblico non vede il sito completo).
+# Al lancio metti False e rigenera → landing completa + SEO attiva.
+COMING_SOON = True
 
 # Per-page SEO metadata (keyword-rich, unique titles + descriptions)
 META = {
@@ -95,7 +98,7 @@ def head(path, m):
     canonical = BASE + "/" if path == "index.html" else f"{BASE}/{path}"
     t = html.escape(m["title"]); d = html.escape(m["desc"])
     ld = ""
-    if m.get("app"):
+    if m.get("app") and not COMING_SOON:
         obj = {
             "@context":"https://schema.org","@type":"MobileApplication",
             "name":"SSM Rush","operatingSystem":"iOS, Android",
@@ -109,7 +112,7 @@ def head(path, m):
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         f'<title>{t}</title>'
         f'<meta name="description" content="{d}">'
-        '<meta name="robots" content="index, follow">'
+        f'<meta name="robots" content="{"noindex, nofollow" if COMING_SOON else "index, follow"}">'
         f'<link rel="canonical" href="{canonical}">'
         '<meta name="theme-color" content="#222c3a">'
         '<link rel="icon" href="img/favicon.png">'
@@ -129,11 +132,12 @@ def head(path, m):
         f'{ld}'
         f'<style>{CSS}</style></head><body>')
 
-NAV = ('<div class="nav"><div class="in"><div class="logo">SSM</div><b>SSM Rush</b>'
-       '<span class="sp"></span>'
-       '<a class="hidem" href="index.html#funzioni">Funzioni</a>'
-       '<a class="hidem" href="index.html#screenshot">Screenshot</a>'
-       '<a href="privacy.html">Privacy</a><a href="supporto.html">Supporto</a></div></div>')
+def nav():
+    extra = "" if COMING_SOON else ('<a class="hidem" href="index.html#funzioni">Funzioni</a>'
+                                    '<a class="hidem" href="index.html#screenshot">Screenshot</a>')
+    return ('<div class="nav"><div class="in"><div class="logo">SSM</div><b>SSM Rush</b>'
+            '<span class="sp"></span>' + extra +
+            '<a href="privacy.html">Privacy</a><a href="supporto.html">Supporto</a></div></div>')
 
 FOOTER = (f'<footer><div class="links"><a href="index.html">Home</a><a href="privacy.html">Privacy</a>'
           f'<a href="supporto.html">Supporto</a><a href="mailto:{EMAIL}">Contatti</a></div>'
@@ -142,7 +146,7 @@ FOOTER = (f'<footer><div class="links"><a href="index.html">Home</a><a href="pri
           f'le prove ufficiali del concorso.</p></footer></body></html>')
 
 def page(path, m, inner):
-    return head(path, m) + NAV + inner + FOOTER
+    return head(path, m) + nav() + inner + FOOTER
 
 # ---------- inline markdown for legal pages ----------
 def inline(t):
@@ -261,6 +265,21 @@ def landing():
 </div></section>
 """
 
+def coming_soon():
+    return """
+<header class="hero" style="padding:118px 20px 128px">
+  <img class="icon" src="img/icon.png" alt="Icona SSM Rush">
+  <div class="eyebrow">Concorso SSM · Preparazione</div>
+  <h1>SSM Rush</h1>
+  <p class="lead">Presto disponibile.</p>
+  <p class="sub">L'app per la preparazione al concorso SSM — oltre 3.000 quesiti, simulazioni d'esame e coach adattivo, tutto offline — sta arrivando su App Store e Google Play.</p>
+  <div class="badges">
+    <span class="badge">App Store<small>Presto disponibile</small></span>
+    <span class="badge">Google Play<small>Presto disponibile</small></span>
+  </div>
+</header>
+"""
+
 def build():
     prep_images()
     with open(os.path.join(ROOT,"legal","privacy-policy.md"),encoding="utf-8") as f: priv=f.read()
@@ -278,23 +297,28 @@ def build():
         + md_to_html("\n".join(supp.split('\n')[1:])) + '</main></div>')
 
     os.makedirs(SITE, exist_ok=True)
-    inners = {"index.html": landing(), "privacy.html": priv_inner, "supporto.html": supp_inner}
+    index_inner = coming_soon() if COMING_SOON else landing()
+    inners = {"index.html": index_inner, "privacy.html": priv_inner, "supporto.html": supp_inner}
     for name, inner in inners.items():
         with open(os.path.join(SITE,name),"w",encoding="utf-8") as f:
             f.write(page(name, META[name], inner))
         print("✓ site/"+name)
-    # robots.txt
+    # robots.txt — pre-lancio blocca tutta l'indicizzazione
     with open(os.path.join(SITE,"robots.txt"),"w",encoding="utf-8") as f:
-        f.write(f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n")
-    # sitemap.xml
+        if COMING_SOON:
+            f.write("User-agent: *\nDisallow: /\n")
+        else:
+            f.write(f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n")
+    # sitemap.xml — vuoto in pre-lancio (non pubblicizza pagine)
     urls = ""
-    for name,m in META.items():
-        loc = BASE+"/" if name=="index.html" else f"{BASE}/{name}"
-        urls += f'  <url><loc>{loc}</loc><lastmod>{LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>{m["prio"]}</priority></url>\n'
+    if not COMING_SOON:
+        for name,m in META.items():
+            loc = BASE+"/" if name=="index.html" else f"{BASE}/{name}"
+            urls += f'  <url><loc>{loc}</loc><lastmod>{LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>{m["prio"]}</priority></url>\n'
     with open(os.path.join(SITE,"sitemap.xml"),"w",encoding="utf-8") as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls+'</urlset>\n')
-    print("✓ robots.txt + sitemap.xml")
-    print("✓ immagini in site/img/ (icona, screenshot, og-image)")
+    print(("✓ MODALITÀ PRE-LANCIO: noindex + 'presto disponibile'" if COMING_SOON else "✓ SEO attiva (landing completa)"))
+    print("✓ robots.txt + sitemap.xml + immagini")
 
 if __name__ == "__main__":
     build()

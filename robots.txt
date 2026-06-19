@@ -1,3 +1,2 @@
 User-agent: *
-Allow: /
-Sitemap: https://neuronbuilds.github.io/ssmrush/sitemap.xml
+Disallow: /
