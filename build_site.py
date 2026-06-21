@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Genera il sito web di SSM Rush (landing + Privacy + Supporto), pronto per GitHub Pages.
+Genera il sito web di SSM SpecialMente (landing + Privacy + Supporto), pronto per GitHub Pages.
 - Prepara le immagini (icona + screenshot) in site/img/ dai file in ../store-assets/
 - Scrive index.html (landing marketing) + privacy.html + supporto.html
 Fonte testi legali: ../legal/*.md   ·   Uso: python3 site/build_site.py
@@ -23,16 +23,16 @@ COMING_SOON = True
 # Per-page SEO metadata (keyword-rich, unique titles + descriptions)
 META = {
     "index.html": dict(
-        title="SSM Rush — App per il concorso SSM: quiz, simulazioni e ripasso",
+        title="SSM SpecialMente — App per il concorso SSM: quiz, simulazioni e ripasso",
         desc="App offline per la preparazione al concorso di Specializzazione in Medicina (SSM): oltre 3.000 quesiti, simulazioni d'esame, coach adattivo e ripasso distanziato. Per iPhone e Android.",
         app=True, prio="1.0"),
     "privacy.html": dict(
-        title="Privacy — SSM Rush",
-        desc="Informativa sulla privacy dell'app SSM Rush: nessun dato personale raccolto, tutto offline. Titolare: Arianna Cocchiglia (Neuron Builds).",
+        title="Privacy — SSM SpecialMente",
+        desc="Informativa sulla privacy dell'app SSM SpecialMente: nessun dato personale raccolto, tutto offline. Titolare: Arianna Cocchiglia (Neuron Builds).",
         app=False, prio="0.3"),
     "supporto.html": dict(
-        title="Supporto e FAQ — SSM Rush",
-        desc="Assistenza e domande frequenti su SSM Rush, l'app offline per la preparazione al concorso SSM. Contatto: neuron.builds@gmail.com.",
+        title="Supporto e FAQ — SSM SpecialMente",
+        desc="Assistenza e domande frequenti su SSM SpecialMente, l'app offline per la preparazione al concorso SSM. Contatto: neuron.builds@gmail.com.",
         app=False, prio="0.3"),
 }
 
@@ -101,7 +101,7 @@ def head(path, m):
     if m.get("app") and not COMING_SOON:
         obj = {
             "@context":"https://schema.org","@type":"MobileApplication",
-            "name":"SSM Rush","operatingSystem":"iOS, Android",
+            "name":"SSM SpecialMente","operatingSystem":"iOS, Android",
             "applicationCategory":"EducationalApplication","inLanguage":"it",
             "description":m["desc"],"image":BASE+"/img/icon.png","url":BASE+"/",
             "publisher":{"@type":"Organization","name":"Neuron Builds","email":EMAIL},
@@ -117,7 +117,7 @@ def head(path, m):
         '<meta name="theme-color" content="#222c3a">'
         '<link rel="icon" href="img/favicon.png">'
         '<meta property="og:type" content="website">'
-        '<meta property="og:site_name" content="SSM Rush">'
+        '<meta property="og:site_name" content="SSM SpecialMente">'
         '<meta property="og:locale" content="it_IT">'
         f'<meta property="og:title" content="{t}">'
         f'<meta property="og:description" content="{d}">'
@@ -135,7 +135,7 @@ def head(path, m):
 def nav():
     extra = "" if COMING_SOON else ('<a class="hidem" href="index.html#funzioni">Funzioni</a>'
                                     '<a class="hidem" href="index.html#screenshot">Screenshot</a>')
-    return ('<div class="nav"><div class="in"><div class="logo">SSM</div><b>SSM Rush</b>'
+    return ('<div class="nav"><div class="in"><div class="logo">SSM</div><b>SSM SpecialMente</b>'
             '<span class="sp"></span>' + extra +
             '<a href="privacy.html">Privacy</a><a href="supporto.html">Supporto</a></div></div>')
 
@@ -200,7 +200,7 @@ def prep_images():
     mask=Image.new("L",(210,210),0); ImageDraw.Draw(mask).rounded_rectangle([0,0,209,209],radius=46,fill=255)
     og.paste(icon,(96,210),mask)
     d.text((360,224),"APP PER IL CONCORSO SSM",font=ImageFont.truetype(F_BOLD,26),fill=(255,178,77))
-    d.text((360,262),"SSM Rush",font=ImageFont.truetype(F_BOLD,82),fill=(255,255,255))
+    d.text((360,262),"SSM SpecialMente",font=ImageFont.truetype(F_BOLD,82),fill=(255,255,255))
     d.text((360,372),"Lo sprint intelligente verso il concorso SSM",font=ImageFont.truetype(F_REG,32),fill=(201,209,221))
     og.save(os.path.join(IMG,"og-image.png"))
 
@@ -233,9 +233,9 @@ def landing():
         for fn,cap in SHOTS)
     return f"""
 <header class="hero">
-  <img class="icon" src="img/icon.png" alt="Icona SSM Rush">
+  <img class="icon" src="img/icon.png" alt="Icona SSM SpecialMente">
   <div class="eyebrow">App di preparazione · Concorso SSM</div>
-  <h1>SSM Rush</h1>
+  <h1>SSM SpecialMente</h1>
   <p class="lead">Lo sprint intelligente verso il concorso SSM.</p>
   <p class="sub">Coach adattivo, simulazioni come la prova reale e ripasso distanziato — oltre 3.000 quesiti, tutto offline. Quesiti tarati un gradino sopra la prova: arrivi al concorso in vantaggio.</p>
   <div class="badges">
@@ -245,7 +245,7 @@ def landing():
 </header>
 
 <section id="perche"><div class="in">
-  <h2 class="t">Perché SSM Rush è diversa</h2>
+  <h2 class="t">Perché SSM SpecialMente è diversa</h2>
   <p class="lede">Non è l'ennesimo archivio di domande da scorrere a caso: ti dice cosa ripassare e ti allena come alla prova vera.</p>
   <div class="highlight"><div class="ic">📈</div><div><b>Tarati per portarti più in alto</b><p>I quesiti sono pensati un gradino sopra la prova reale — distrattori curati e casi clinici realistici. È un allenamento volutamente esigente: se te la cavi qui, al concorso arrivi con un solido margine di vantaggio.</p></div></div>
   <div class="why">{why}</div>
@@ -268,9 +268,9 @@ def landing():
 def coming_soon():
     return """
 <header class="hero" style="padding:118px 20px 128px">
-  <img class="icon" src="img/icon.png" alt="Icona SSM Rush">
+  <img class="icon" src="img/icon.png" alt="Icona SSM SpecialMente">
   <div class="eyebrow">Concorso SSM · Preparazione</div>
-  <h1>SSM Rush</h1>
+  <h1>SSM SpecialMente</h1>
   <p class="lead">Presto disponibile.</p>
   <p class="sub">L'app per la preparazione al concorso SSM — oltre 3.000 quesiti, simulazioni d'esame e coach adattivo, tutto offline — sta arrivando su App Store e Google Play.</p>
   <div class="badges">
