@@ -116,6 +116,7 @@ def head(path, m):
         f'<meta name="robots" content="{"noindex, nofollow" if COMING_SOON else "index, follow"}">'
         f'<link rel="canonical" href="{canonical}">'
         '<meta name="theme-color" content="#222c3a">'
+        '<meta name="google-site-verification" content="YByd3gQQcmHfe4ePnMZD7YP9nJJsstVGpftj63bsxYg">'
         '<link rel="icon" href="img/favicon.png">'
         '<meta property="og:type" content="website">'
         '<meta property="og:site_name" content="SSM SpecialMente">'
