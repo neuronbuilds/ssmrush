@@ -18,7 +18,8 @@ F_REG  = "/System/Library/Fonts/Supplemental/Arial.ttf"
 LASTMOD = "2026-06-20"
 # Pre-lancio: True = pagina "presto disponibile" + noindex (il pubblico non vede il sito completo).
 # Al lancio metti False e rigenera → landing completa + SEO attiva.
-COMING_SOON = True
+COMING_SOON = False
+APPSTORE_URL = "https://apps.apple.com/it/app/id6782622522"
 
 # Per-page SEO metadata (keyword-rich, unique titles + descriptions)
 META = {
@@ -239,7 +240,7 @@ def landing():
   <p class="lead">Lo sprint intelligente verso il concorso SSM.</p>
   <p class="sub">Coach adattivo, simulazioni come la prova reale e ripasso distanziato — oltre 3.000 quesiti, tutto offline. Quesiti tarati un gradino sopra la prova: arrivi al concorso in vantaggio.</p>
   <div class="badges">
-    <span class="badge">App Store<small>Presto disponibile</small></span>
+    <a class="badge" href="{APPSTORE_URL}">App Store<small>Scarica ora</small></a>
     <span class="badge">Google Play<small>Presto disponibile</small></span>
   </div>
 </header>
